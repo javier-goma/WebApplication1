@@ -6,7 +6,7 @@ using WebApplication1.Db;
 
 namespace WebApplication1.Repository
 {
-    public class UsersRepository : BaseRepository<Users>
+    public class UsersRepository : BaseRepository<User>
     {
         private readonly WebApplicationContext _dbContext;
 
@@ -15,7 +15,7 @@ namespace WebApplication1.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<Users> GetUserById(uint id)
+        public async Task<User> GetUserById(uint id)
         {
             return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
         }

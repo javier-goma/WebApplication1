@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WebApplication1.Models;
@@ -11,12 +13,12 @@ namespace WebApplication1.Controllers
     [Route("api/profiles")]
     public class ProfilesController : ControllerBase
     {
-        private readonly IRepository<Profiles> _repository;
+        private readonly IRepository<Profile> _repository;
         private readonly ProfileHandler _profileHandler;
         private readonly ILogger<ProfilesController> _logger;
         
         
-        public ProfilesController(IRepository<Profiles> repository, ProfileHandler profileHandler)
+        public ProfilesController(IRepository<Profile> repository, ProfileHandler profileHandler)
         {
             _repository = repository;
             _profileHandler = profileHandler;
@@ -24,16 +26,25 @@ namespace WebApplication1.Controllers
         
         [HttpGet]
         [Route("get/{id}")]
-        public async Task<Profiles> GetById(uint id)
+        public async Task<IActionResult> GetById(uint id)
         {
             var profile = await _repository.GetById(id);
 
-            return profile;
+            return Ok(profile);
+        }
+
+        [HttpGet]
+        [Route("get")]
+        public async Task<IActionResult> GetAll()
+        {
+            var profiles = await _repository.GetAll();
+
+            return Ok(profiles);
         }
 
         [HttpPost]
         [Route("create")]
-        public async Task<IActionResult> CreateProfile([FromBody] Profiles profile)
+        public async Task<IActionResult> CreateProfile([FromBody] Profile profile)
         {
             var response = await _profileHandler.CreateProfile(profile);
 
@@ -42,12 +53,20 @@ namespace WebApplication1.Controllers
         
         [HttpPost]
         [Route("update")]
-        public async Task<IActionResult> UpdateProfile([FromBody] Profiles profile)
+        public async Task<IActionResult> UpdateProfile([FromBody] Profile profile)
         {
-            await _repository.Update(profile);
+            var response = await _profileHandler.UpdateProfile(profile);
 
-            return Ok("Profile has been updated");
+            return Ok(response);
         }
 
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public async Task<IActionResult> DeleteProfile(uint id)
+        {
+            var response = await _profileHandler.DeleteProfile(id);
+
+            return Ok(response);
+        }
     }
 }

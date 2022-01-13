@@ -11,8 +11,8 @@ namespace WebApplication1.Db
             
         }
 
-        public virtual DbSet<Profiles> Profiles { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Profile> Profiles { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
     }
 }

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication1.Models
 {
-    public class Profiles : IEntity
+    public class Profile : IEntity
     {
         [Key]
         public uint Id { get; set; }

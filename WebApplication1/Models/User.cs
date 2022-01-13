@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApplication1.Models
 {
-    public class Users : IEntity
+    public class User : IEntity
     {
         [Key]
         public uint Id { get; set; }
@@ -18,7 +18,7 @@ namespace WebApplication1.Models
         public DateTime UpdateDate{ get; set; }
         public DateTime LastLogin { get; set; }
 
-        public virtual ICollection<Profiles> Profile { get; set; }
+        public virtual ICollection<Profile> Profile { get; set; }
 
     }
 }

@@ -5,7 +5,7 @@ using WebApplication1.Db;
 
 namespace WebApplication1.Uow.Repository
 {
-    public class ProfilesRepository : BaseRepository<Profiles>
+    public class ProfilesRepository : BaseRepository<Profile>
     {
         private readonly WebApplicationContext _dbContext;
 
@@ -14,9 +14,20 @@ namespace WebApplication1.Uow.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<Profiles> GetProfileById(uint id)
+        public override async Task<Profile> Update(Profile entity)
         {
-            return await _dbContext.Profiles.FirstOrDefaultAsync(p => p.Id == id);
+            var profile = await _dbContext.Profiles.FirstOrDefaultAsync(p => p.Id == entity.Id);
+
+            if (profile == null)
+            {
+                return null;
+            }
+            
+            profile.ProfileName = entity.ProfileName;
+            await _dbContext.SaveChangesAsync();
+
+            return profile;
+
         }
     }
 }

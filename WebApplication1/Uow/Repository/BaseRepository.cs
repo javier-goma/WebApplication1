@@ -8,7 +8,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Uow.Repository
 {
-    public class BaseRepository<T> : IRepository<T> where T : class, IEntity
+    public abstract class BaseRepository<T> : IRepository<T> where T : class, IEntity
     {
         private readonly WebApplicationContext _dbContext;
         private DbSet<T> _dbSet => _dbContext.Set<T>();
@@ -37,9 +37,10 @@ namespace WebApplication1.Uow.Repository
             return entity;
         }
 
-        public async Task<T> Update(T entity)
+        public virtual async Task<T> Update(T entity)
         { 
-            _dbSet.Update(entity);
+            var retriviedEntity = await GetById(entity.Id);
+            retriviedEntity = entity;
             await _dbContext.SaveChangesAsync();
 
             return entity;

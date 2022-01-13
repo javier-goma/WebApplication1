@@ -42,7 +42,7 @@ namespace WebApplication1
                 options => options.UseInMemoryDatabase(databaseName: "memoryDb")
             );
 
-            services.AddScoped<IRepository<Profiles>, ProfilesRepository>();
+            services.AddScoped<IRepository<Profile>, ProfilesRepository>();
             services.AddScoped<ProfileHandler>();
         }
 
