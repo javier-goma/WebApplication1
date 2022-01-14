@@ -24,4 +24,7 @@ Since the image is ready, follow the next command to run a docker container with
 docker run -p 8080:80 webapp/rest .
 ```
 
-The API now is reachable in the next address localhost:8080/
+The API is now reachable in the next address 
+````ash
+http://localhost:8080/
+````
