@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using WebApplication1.Repository;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Services;
 using System.Threading.Tasks;
 using WebApplication1.Models;
@@ -11,10 +9,8 @@ namespace WebApplication1.Controllers
     public class ProfilesController : ControllerBase
     {
         private readonly ProfileHandler _profileHandler;
-        private readonly ILogger<ProfilesController> _logger;
-        
-        
-        public ProfilesController(IRepository<Profile> repository, ProfileHandler profileHandler)
+
+        public ProfilesController(ProfileHandler profileHandler)
         {
             _profileHandler = profileHandler;
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using WebApplication1.Repository;
 using WebApplication1.HTTPModels;
 using System.Threading.Tasks;
@@ -18,6 +19,37 @@ namespace WebApplication1.Services
             _logger = logger;
         }
 
+        public async Task<GenericResponse<UserDto>> GetUserById(uint id)
+        {
+            var user = await _repository.GetById(id);
+
+            if (user == null)
+            {
+                return new GenericResponse<UserDto>()
+                {
+                    Message = $"There is no user with {id} as id",
+                    Data = null
+                };
+            }
+
+            return new GenericResponse<UserDto>()
+            {
+                Message = $"User with {id} as id",
+                Data = new UserDto(user)
+            };
+        }
+        
+        public async Task<GenericResponse<ICollection<User>>> GetAllUsers()
+        {
+            var users = await _repository.GetAll();
+
+            return new GenericResponse<ICollection<User>>()
+            {
+                Message = $"{users.Count} users were retrieved",
+                Data = users
+            };
+        }
+        
         public async Task<GenericResponse<UserDto>> CreateUser(User user)
         {
             var response = await _repository.Create(user);
@@ -55,7 +87,7 @@ namespace WebApplication1.Services
             var temp = new UserDto(updatedUser);
             return new GenericResponse<UserDto>()
             {
-                Message = $"The profile with {updatedUser.Id} as Id has been updated",
+                Message = $"The user with {updatedUser.Id} as Id has been updated",
                 Data = new UserDto(updatedUser)
             };
         }
@@ -69,7 +101,7 @@ namespace WebApplication1.Services
             {
                 return new GenericResponse<Profile>()
                 {
-                    Message = $"Error while deleting: There is no profile with {id} as id",
+                    Message = $"Error while deleting: There is no user with {id} as id",
                     Data = null
                 };
             }

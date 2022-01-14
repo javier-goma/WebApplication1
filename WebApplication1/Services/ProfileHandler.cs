@@ -1,24 +1,22 @@
-﻿using System.Collections;
+﻿using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
-using WebApplication1.Controllers;
 using WebApplication1.Repository;
 using WebApplication1.HTTPModels;
 using System.Threading.Tasks;
 using WebApplication1.Models;
-using WebApplication1.Uow.Repository;
 
 namespace WebApplication1.Services
 {
     public class ProfileHandler
     {
         private readonly IRepository<Profile> _repository;
-        private readonly ILogger<ProfilesController> _logger;
-        
-        
-        public ProfileHandler(IRepository<Profile> repository)
+        private readonly ILogger<ProfileHandler> _logger;
+
+
+        public ProfileHandler(IRepository<Profile> repository, ILogger<ProfileHandler> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         public async Task<GenericResponse<Profile>> GetProfileById(uint id)
@@ -26,11 +24,15 @@ namespace WebApplication1.Services
             var profile = await _repository.GetById(id);
 
             if (profile == null)
+            {
+                _logger.LogInformation("profile:{id} does not exists", id);
                 return new GenericResponse<Profile>()
                 {
                     Message = $"The profile with {id} as Id does not exist",
                     Data = null
                 };
+            }
+                
 
             return new GenericResponse<Profile>()
             {
@@ -67,6 +69,7 @@ namespace WebApplication1.Services
 
             if (updatedProfile == null)
             {
+                _logger.LogInformation("Profile: {id} not found", profile.Id);
                 return new GenericResponse<Profile>()
                 {
                     Message = $"Error while updating: There is no profile with {profile.Id} as id",

@@ -1,5 +1,4 @@
-﻿using WebApplication1.Repository;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Services;
 using System.Threading.Tasks;
 using WebApplication1.Models;
@@ -9,12 +8,10 @@ namespace WebApplication1.Controllers
     [Route("api/users")]
     public class UserController : ControllerBase
     {
-        private readonly IRepository<User> _repository;
         private readonly UserHandler _userHandler;
 
-        public UserController(IRepository<User> repository, UserHandler userHandler)
+        public UserController(UserHandler userHandler)
         {
-            _repository = repository;
             _userHandler = userHandler;
         }
         
@@ -23,7 +20,7 @@ namespace WebApplication1.Controllers
         [Route("get/{id}")]
         public async Task<IActionResult> GetById(uint id)
         {
-            var user = await _repository.GetById(id);
+            var user = await _userHandler.GetUserById(id);
 
             return Ok(user);
         }
@@ -32,7 +29,7 @@ namespace WebApplication1.Controllers
         [Route("get")]
         public async Task<IActionResult> GetAll()
         {
-            var users = await _repository.GetAll();
+            var users = await _userHandler.GetAllUsers();
 
             return Ok(users);
         }
