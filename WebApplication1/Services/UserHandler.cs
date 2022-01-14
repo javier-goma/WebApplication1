@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using WebApplication1.Dto;
-using WebApplication1.HTTPModels;
-using WebApplication1.Models;
+﻿using Microsoft.Extensions.Logging;
 using WebApplication1.Repository;
+using WebApplication1.HTTPModels;
+using System.Threading.Tasks;
+using WebApplication1.Models;
+using WebApplication1.Dto;
 
 namespace WebApplication1.Services
 {
@@ -39,11 +39,11 @@ namespace WebApplication1.Services
             };
         }
         
-        public async Task<GenericResponse<UserDto>> UpdateProfile(User user)
+        public async Task<GenericResponse<UserDto>> UpdateUser(User user)
         {
-            var updatedProfile = await _repository.Update(user);
+            var updatedUser = await _repository.Update(user);
 
-            if (updatedProfile == null)
+            if (updatedUser == null)
             {
                 return new GenericResponse<UserDto>()
                 {
@@ -51,12 +51,36 @@ namespace WebApplication1.Services
                     Data = null
                 };
             }
+
+            var temp = new UserDto(updatedUser);
             return new GenericResponse<UserDto>()
             {
-                Message = $"The profile with {user.Id} as Id has been updated",
-                Data = new UserDto(user)
+                Message = $"The profile with {updatedUser.Id} as Id has been updated",
+                Data = new UserDto(updatedUser)
             };
         }
-        
+
+
+        public async Task<object> DeleteUser(uint id)
+        {
+            var userToDelete = await _repository.GetById(id);
+
+            if (userToDelete == null)
+            {
+                return new GenericResponse<Profile>()
+                {
+                    Message = $"Error while deleting: There is no profile with {id} as id",
+                    Data = null
+                };
+            }
+
+            await _repository.Delete(userToDelete);
+
+            return new GenericResponse<Profile>()
+            {
+                Message = $"The profile with {id} as Id has been deleted",
+                Data = null
+            };
+        }
     }
 }

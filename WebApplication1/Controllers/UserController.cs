@@ -52,7 +52,16 @@ namespace WebApplication1.Controllers
         [Route("update")]
         public async Task<IActionResult> UpdateProfile([FromBody] User user)
         {
-            var response = await _userHandler.UpdateProfile(user);
+            var response = await _userHandler.UpdateUser(user);
+            return Ok(response);
+        }
+        
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public async Task<IActionResult> DeleteProfile(uint id)
+        {
+            var response = await _userHandler.DeleteUser(id);
+
             return Ok(response);
         }
     }
