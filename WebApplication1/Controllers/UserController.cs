@@ -1,10 +1,8 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using System.Threading.Tasks;
+﻿using WebApplication1.Repository;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication1.HTTPModels;
-using WebApplication1.Models;
-using WebApplication1.Repository;
 using WebApplication1.Services;
+using System.Threading.Tasks;
+using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {

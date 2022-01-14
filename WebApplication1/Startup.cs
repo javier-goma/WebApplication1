@@ -1,15 +1,15 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using WebApplication1.Uow.Repository;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
-using WebApplication1.Db;
-using WebApplication1.Models;
+using Microsoft.AspNetCore.Hosting;
 using WebApplication1.Repository;
 using WebApplication1.Services;
-using WebApplication1.Uow.Repository;
+using Microsoft.OpenApi.Models;
+using WebApplication1.Models;
+using WebApplication1.Db;
 
 namespace WebApplication1
 {
