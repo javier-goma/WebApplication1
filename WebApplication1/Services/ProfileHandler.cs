@@ -1,9 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 using WebApplication1.Controllers;
 using WebApplication1.Repository;
 using WebApplication1.HTTPModels;
 using System.Threading.Tasks;
 using WebApplication1.Models;
+using WebApplication1.Uow.Repository;
 
 namespace WebApplication1.Services
 {
@@ -18,6 +21,35 @@ namespace WebApplication1.Services
             _repository = repository;
         }
 
+        public async Task<GenericResponse<Profile>> GetProfileById(uint id)
+        {
+            var profile = await _repository.GetById(id);
+
+            if (profile == null)
+                return new GenericResponse<Profile>()
+                {
+                    Message = $"The profile with {id} as Id does not exist",
+                    Data = null
+                };
+
+            return new GenericResponse<Profile>()
+            {
+                Message = $"Profile with {profile.Id} as Id",
+                Data = profile
+            };
+        }
+
+        public async Task<GenericResponse<ICollection<Profile>>> GetAllProfiles()
+        {
+            var profiles = await _repository.GetAll();
+
+            return new GenericResponse<ICollection<Profile>>()
+            {
+                Message = $"{profiles.Count} profiles were retrieved",
+                Data = profiles
+            };
+        }
+        
         public async Task<GenericResponse<Profile>> CreateProfile(Profile profile)
         {
             await _repository.Create(profile);

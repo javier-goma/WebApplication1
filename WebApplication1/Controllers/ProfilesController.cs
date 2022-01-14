@@ -10,14 +10,12 @@ namespace WebApplication1.Controllers
     [Route("api/profiles")]
     public class ProfilesController : ControllerBase
     {
-        private readonly IRepository<Profile> _repository;
         private readonly ProfileHandler _profileHandler;
         private readonly ILogger<ProfilesController> _logger;
         
         
         public ProfilesController(IRepository<Profile> repository, ProfileHandler profileHandler)
         {
-            _repository = repository;
             _profileHandler = profileHandler;
         }
         
@@ -25,16 +23,16 @@ namespace WebApplication1.Controllers
         [Route("get/{id}")]
         public async Task<IActionResult> GetById(uint id)
         {
-            var profile = await _repository.GetById(id);
+            var response = await _profileHandler.GetProfileById(id);
 
-            return Ok(profile);
+            return Ok(response);
         }
 
         [HttpGet]
         [Route("get")]
         public async Task<IActionResult> GetAll()
         {
-            var profiles = await _repository.GetAll();
+            var profiles = await _profileHandler.GetAllProfiles();
 
             return Ok(profiles);
         }
