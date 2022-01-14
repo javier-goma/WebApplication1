@@ -43,7 +43,7 @@ namespace WebApplication1.Uow.Repository
             retrievedEntity = entity;
             await _dbContext.SaveChangesAsync();
 
-            return entity;
+            return retrievedEntity;
         }
 
         public async Task Delete(T entity)

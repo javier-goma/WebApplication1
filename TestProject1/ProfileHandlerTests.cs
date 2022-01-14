@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using WebApplication1.Models;
 using NUnit.Framework;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace TestProject1
@@ -15,7 +16,8 @@ namespace TestProject1
         private Profile _testProfile;
         private Profile _testProfile2;
         private Mock<IRepository<Profile>> _mockRepository;
-        
+        private Mock<ILogger<ProfileHandler>> _mockLogger;
+
         [SetUp]
         public void Setup()
         {
@@ -31,12 +33,13 @@ namespace TestProject1
             };
             
             _mockRepository = new Mock<IRepository<Profile>>();
+            _mockLogger = new Mock<ILogger<ProfileHandler>>();
         }
 
         [Test]
         public async Task TestCreateProfile()
         {
-            var profileHandler = new ProfileHandler(_mockRepository.Object);
+            var profileHandler = new ProfileHandler(_mockRepository.Object, _mockLogger.Object);
 
             var response = await profileHandler.CreateProfile(_testProfile);
 
@@ -49,7 +52,7 @@ namespace TestProject1
         {
             _mockRepository.Setup(pr => pr.GetById(1)).ReturnsAsync(_testProfile);
             
-            var profileHandler = new ProfileHandler(_mockRepository.Object);
+            var profileHandler = new ProfileHandler(_mockRepository.Object, _mockLogger.Object);
 
             var response = await profileHandler.GetProfileById(1);
             
@@ -66,7 +69,7 @@ namespace TestProject1
                     _testProfile, _testProfile2
                 });
 
-            var profileHandler = new ProfileHandler(_mockRepository.Object);
+            var profileHandler = new ProfileHandler(_mockRepository.Object, _mockLogger.Object);
 
             var response = await profileHandler.GetAllProfiles();
             
