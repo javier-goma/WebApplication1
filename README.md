@@ -4,7 +4,7 @@
 
 1. Clone the repository
 ```
-git clone "addresshere"
+git clone "https://github.com/javier-goma/WebApplication1.git"
 ```
 
 ### Prerequisites
