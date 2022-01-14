@@ -47,7 +47,13 @@ namespace WebApplication1.Controllers
 
             return Ok(response);
         }
-        
-        
+
+        [HttpPost]
+        [Route("update")]
+        public async Task<IActionResult> UpdateProfile([FromBody] User user)
+        {
+            var response = await _userHandler.UpdateProfile(user);
+            return Ok(response);
+        }
     }
 }

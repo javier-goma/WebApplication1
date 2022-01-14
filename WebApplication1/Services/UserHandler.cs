@@ -24,14 +24,12 @@ namespace WebApplication1.Services
 
             if (response != null)
             {
-                var temp = new UserDto(user);
                 return new GenericResponse<UserDto>()
                 {
                     Message = $"The user with {user.Id} as id has been created",
                     Data = new UserDto(user)
                 };  
             }
-               
             
             _logger.LogInformation("User can't be created since profileId doesn't exist on profile table");
             return new GenericResponse<UserDto>()
@@ -39,7 +37,26 @@ namespace WebApplication1.Services
                 Message = "User can not be created since profileId doesn't exist on profile table",
                 Data = null
             };
-
         }
+        
+        public async Task<GenericResponse<UserDto>> UpdateProfile(User user)
+        {
+            var updatedProfile = await _repository.Update(user);
+
+            if (updatedProfile == null)
+            {
+                return new GenericResponse<UserDto>()
+                {
+                    Message = $"Error while updating: There is no user with {user.Id} as id",
+                    Data = null
+                };
+            }
+            return new GenericResponse<UserDto>()
+            {
+                Message = $"The profile with {user.Id} as Id has been updated",
+                Data = new UserDto(user)
+            };
+        }
+        
     }
 }

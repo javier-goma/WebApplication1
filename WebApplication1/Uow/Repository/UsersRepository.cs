@@ -31,6 +31,26 @@ namespace WebApplication1.Repository
             return user;
         }
 
+        public override async Task<User> Update(User entity)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(p => p.Id == entity.Id);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            user.Password = user.Password;
+            user.Status = user.Status;
+            user.Username = entity.Username;
+            user.ProfileId = entity.ProfileId;
+            user.UpdateDate = DateTime.Now;
+
+            await _dbContext.SaveChangesAsync();
+
+            return user;
+        }
+
         private async Task<bool> ProfileExists(uint id)
         {
             return (await _dbContext.Profiles.FirstOrDefaultAsync(p => p.Id == id)) != null;
