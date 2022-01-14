@@ -10,7 +10,5 @@ namespace WebApplication1.Models
         [Key]
         public uint Id { get; set; }
         public string ProfileName { get; set; }
-        
-        // public virtual ICollection<Users> Users { get; set; }
     }
 }

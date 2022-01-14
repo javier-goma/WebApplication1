@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using WebApplication1.Models;
+﻿using Microsoft.Extensions.Logging;
 using WebApplication1.Repository;
+using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Services;
-using WebApplication1.Uow.Repository;
+using System.Threading.Tasks;
+using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {

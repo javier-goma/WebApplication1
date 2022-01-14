@@ -29,7 +29,7 @@ namespace WebApplication1.Uow.Repository
             return await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
         }
         
-        public async Task<T> Create(T entity)
+        public virtual async Task<T> Create(T entity)
         {
             await _dbSet.AddAsync(entity);
             await _dbContext.SaveChangesAsync();
@@ -39,8 +39,8 @@ namespace WebApplication1.Uow.Repository
 
         public virtual async Task<T> Update(T entity)
         { 
-            var retriviedEntity = await GetById(entity.Id);
-            retriviedEntity = entity;
+            var retrievedEntity = await GetById(entity.Id);
+            retrievedEntity = entity;
             await _dbContext.SaveChangesAsync();
 
             return entity;
